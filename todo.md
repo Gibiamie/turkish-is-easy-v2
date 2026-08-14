@@ -29,3 +29,4 @@
 - [x] Mikrofon izni, desteklenmeyen tarayıcı ve boş transkript durumlarını doğru mesaj ve güvenilir geri dönüş seçenekleriyle düzeltmek
 - [x] Tarayıcı konuşma tanıması sonuç vermediğinde de öğrenciyi gerçek sesletim pratiğinde ilerleten bağımsız konuşma koçluğu akışını uygulamak
 - [x] Laya yardımını genel ses kaydı önerisinden çıkarıp dersin sesletim veya kurma hedefini adım adım öğreten pratik rehbere dönüştürmek
+- [x] PWA hizmet çalışanı önbelleğini sürümleyip eski Laya ve mikrofon arayüzünün canlıda kalmasını engellemek
