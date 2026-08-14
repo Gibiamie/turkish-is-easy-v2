@@ -1,0 +1,27 @@
+{
+  "generatedAt": "2026-08-14T06:01:09.144Z",
+  "v1": {
+    "topics": 15,
+    "nonReviewItems": 133,
+    "audioFiles": 184,
+    "referencedAudioMappings": 121,
+    "ownerVerifiedAudio": 23,
+    "profiles": 4
+  },
+  "v2": {
+    "topics": 15,
+    "items": 145,
+    "audioFiles": 184,
+    "ownerVerifiedAudio": 23,
+    "profiles": 4
+  },
+  "missingTopics": [],
+  "missingItems": [],
+  "missingVerifiedAudio": [],
+  "parity": {
+    "topics": "PASS",
+    "items": "PASS",
+    "sourceAudioFiles": "PASS",
+    "ownerVerifiedAudio": "PASS"
+  }
+}

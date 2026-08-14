@@ -3,6 +3,35 @@
   "version": "2.0.0",
   "private": true,
   "type": "module",
-  "scripts": { "dev": "vite", "build": "tsc -b && vite build", "preview": "vite preview", "test": "vitest run", "test:watch": "vitest", "lint:content": "tsx scripts/content-check.ts" },
-  "dependencies": { "@vitejs/plugin-react": "latest", "vite": "latest", "react": "latest", "react-dom": "latest", "typescript": "latest", "vitest": "latest", "tsx": "latest", "@types/node": "latest", "@types/react": "latest", "@types/react-dom": "latest" }
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:e2e:update": "playwright test --update-snapshots",
+    "lint:content": "tsx scripts/content-check.ts",
+    "parity:report": "tsx scripts/parity-check.ts",
+    "parity:check": "PARITY_STRICT=1 tsx scripts/parity-check.ts",
+    "migrate:v1": "tsx scripts/migrate-v1-content.ts",
+    "audio:migration-report": "tsx scripts/audio-migration-report.ts",
+    "quality:core": "pnpm build && pnpm lint:content && pnpm parity:check && pnpm audio:migration-report && pnpm test"
+  },
+  "dependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@vitejs/plugin-react": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "tsx": "latest",
+    "typescript": "latest",
+    "vite": "latest",
+    "vitest": "latest"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.62.1"
+  }
 }

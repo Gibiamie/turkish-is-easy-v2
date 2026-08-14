@@ -28,3 +28,11 @@ The V2 preview does not include account sync, a content studio, cloud audio proc
 The first Pages deployment was reachable but rendered only the static document shell because the compiled bundle and public assets used root-relative URLs. V2 now uses the `/turkish-is-easy-v2/` deployment base, a relative manifest entry, base-aware service-worker registration, and base-aware lesson image/audio URLs. The corrected production bundle, content QA, and all regression tests passed locally before redeployment.
 
 The corrected GitHub Pages deployment completed successfully and the live app loaded its complete V2 profile-selection interface from `https://gibiamie.github.io/turkish-is-easy-v2/` rather than only the static document shell.
+
+## Recovery QA — current baseline
+
+The recovered local preview rendered the profile chooser at the `/turkish-is-easy-v2/` base path after the V1 curriculum import. The first keyboard-visible target was the skip link and all four profiles were exposed as labelled buttons. This confirms that the revised base path and local shell remain reachable at the start of recovery work.
+
+Bella’s initial V1 sequence begins with the alphabet sound `a`, reports `0 of 145 completed`, and surfaces the first three sound cards without revealing an answer choice. The complete V1 item set is therefore wired into the visible learner path rather than retained as unused data.
+
+In the first teaching-stage alphabet lesson, the source recording control appears before the practice button. Opening Laya’s help before practice exposes only the safe message that the learner should try first; it does not display an option, answer part, final answer, or explanation.

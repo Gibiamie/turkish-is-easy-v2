@@ -16,3 +16,12 @@
 - [x] Zorunlu dokümantasyonu, CI yapılandırmasını ve dağıtım hazırlığını tamamlamak
 - [x] Ön yayın adversarial kalite incelemesini yürütmek ve V2 sürümünü kayıt altına almak
 - [x] GitHub Pages alt yolunda PWA varlıklarının ve başlangıç paketinin yüklenmesini düzeltmek
+- [x] V1–V2 makine okunur parite envanterini ve zorunlu parite kontrolünü oluşturmak
+- [x] V1'deki 15 temel konu ve en az 133 yayınlanmış öğrenme öğesi kapsamasını V2'ye geri yüklemek
+- [x] V1 ses envanterini, doğrulama durumlarını ve tam ses göçü raporunu oluşturmak
+- [x] Yeni sözcükler için gör–dinle–anla–tekrar et–tanı–hatırla–kullan öğretim sırasını uygulamak
+- [x] Laya'nın öncesi/yanlış sonrası/doğru sonrası uyarlanabilir rehberliğini ve cevap sızıntısı testini uygulamak
+- [x] Mikrofonlu güvenli konuşma pratiğini, kesin birincil transkript eşleştirmesini ve akustik regresyon metodolojisini uygulamak
+- [x] My Words, gerçek ödüller, profil bazlı oturum devamlılığı ve geliştirilmiş offline güncellemesini uygulamak
+- [x] Playwright E2E, erişilebilirlik ve çoklu viewport görsel regresyon kontrollerini eklemek
+- [ ] Tam parite ve üretim kalite kapılarını çalıştırıp canlı V2 dağıtımını güncellemek
