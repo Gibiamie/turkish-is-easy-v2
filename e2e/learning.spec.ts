@@ -31,10 +31,10 @@ test("Bella follows teach → safe attempt → correct practice without an answe
   await page.getByRole("button", { name: /I heard it — start practice/ }).click();
 
   await page.getByRole("button", { name: /Laya's help/ }).click();
-  await expect(page.getByRole("button", { name: /Choose a clue/ })).toBeVisible();
-  await expect(page.locator(".guide-body")).toContainText("Replay the Turkish recording");
+  await expect(page.getByRole("button", { name: /Practise with Laya/ })).toBeVisible();
+  await expect(page.locator(".guide-body")).toContainText("Practise before you choose");
+  await expect(page.locator(".guide-body")).toContainText("Say the sound twice");
   await expect(page.locator(".guide-body")).not.toContainText("Try it yourself first");
-  await expect(page.locator(".guide-body")).not.toContainText("father");
 
   await page.getByRole("button", { name: "e", exact: true }).click();
   await expect(page.getByRole("status")).toContainText("Not yet. Try a different choice or order.");
@@ -91,20 +91,33 @@ test("hash session returns to the same lesson and browser back restores the prev
 
 test("microphone permission denial remains an honest, non-blocking fallback", async ({ page }) => {
   await page.addInitScript(() => {
-    class DeniedRecognition {
-      lang = "";
-      onerror: ((event: { error: string }) => void) | null = null;
-      onend: (() => void) | null = null;
-      start() { setTimeout(() => { this.onerror?.(Object.assign(new Event("error"), { error: "not-allowed" })); this.onend?.(); }, 0); }
-    }
-    Object.defineProperty(navigator, "mediaDevices", { configurable: true, value: { getUserMedia: async () => ({ getTracks: () => [{ stop() {} }] }) } });
-    Object.assign(window, { SpeechRecognition: DeniedRecognition, webkitSpeechRecognition: DeniedRecognition });
+    Object.defineProperty(navigator, "mediaDevices", { configurable: true, value: { getUserMedia: async () => { throw new DOMException("denied", "NotAllowedError"); } } });
   });
   await chooseProfile(page, "Bella");
   await page.getByRole("button", { name: /^Continue/ }).click();
-  await page.getByRole("button", { name: /Use my microphone/ }).click();
-  await expect(page.getByRole("status")).toContainText("Microphone access is turned off.");
-  await expect(page.getByRole("button", { name: "Try the microphone again", exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Record my voice for 3 seconds", exact: true }).click();
+  await expect(page.getByRole("status")).toContainText("The microphone could not start.");
+});
+
+test("a learner can record and listen back without browser speech-to-text", async ({ page }) => {
+  await page.addInitScript(() => {
+    class FakeRecorder {
+      mimeType = "audio/webm";
+      ondataavailable: ((event: { data: Blob }) => void) | null = null;
+      onerror: (() => void) | null = null;
+      onstop: (() => void) | null = null;
+      constructor(_stream: unknown) {}
+      start() { setTimeout(() => { this.ondataavailable?.({ data: new Blob(["practice"], { type: "audio/webm" }) }); this.onstop?.(); }, 0); }
+      stop() {}
+    }
+    Object.defineProperty(navigator, "mediaDevices", { configurable: true, value: { getUserMedia: async () => ({ getTracks: () => [{ stop() {} }] }) } });
+    Object.defineProperty(window, "MediaRecorder", { configurable: true, value: FakeRecorder });
+  });
+  await chooseProfile(page, "Bella");
+  await page.getByRole("button", { name: /^Continue/ }).click();
+  await page.getByRole("button", { name: "Record my voice for 3 seconds", exact: true }).click();
+  await expect(page.getByRole("status")).toContainText("Your recording is ready.");
+  await expect(page.getByRole("button", { name: "Listen back to my recording", exact: true })).toBeVisible();
 });
 
 test("microphone practice returns an exact transcript cue when the browser hears the Turkish word", async ({ page }) => {
@@ -125,9 +138,9 @@ test("microphone practice returns an exact transcript cue when the browser hears
   });
   await chooseProfile(page, "Bella");
   await page.getByRole("button", { name: /^Continue/ }).click();
-  await page.getByRole("button", { name: /Use my microphone/ }).click();
-  await expect(page.getByRole("status")).toContainText("The recognizer heard: “a”");
-  await expect(page.getByRole("status")).toContainText("exactly matches the reference word");
+  await page.getByRole("button", { name: "Optional: check what the browser heard", exact: true }).click();
+  await expect(page.getByRole("status")).toContainText("The browser heard: “a”");
+  await expect(page.getByRole("status")).toContainText("matches the reference text");
 });
 
 test("dashboard, lesson, builder, review, My Words, adult EN and kid ID have no WCAG A/AA axe violations", async ({ page }) => {

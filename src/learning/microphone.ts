@@ -23,6 +23,20 @@ declare global {
 
 export type TranscriptPracticeResult = { transcript: string; exactReferenceMatch: boolean };
 
+export function recordVoiceSnippet(durationMs = 3000): Promise<string> {
+  if (!navigator.mediaDevices?.getUserMedia) return Promise.reject(new Error("microphone_unsupported"));
+  if (typeof MediaRecorder === "undefined") return Promise.reject(new Error("recording_unsupported"));
+  return navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => new Promise<string>((resolve, reject) => {
+    const chunks: BlobPart[] = [];
+    const recorder = new MediaRecorder(stream);
+    const cleanup = () => stream.getTracks().forEach((track) => track.stop());
+    recorder.ondataavailable = (event) => { if (event.data.size) chunks.push(event.data); };
+    recorder.onerror = () => { cleanup(); reject(new Error("recording_error")); };
+    recorder.onstop = () => { const blob = new Blob(chunks, { type: recorder.mimeType || "audio/webm" }); cleanup(); blob.size ? resolve(URL.createObjectURL(blob)) : reject(new Error("recording_empty")); };
+    try { recorder.start(); window.setTimeout(() => recorder.stop(), durationMs); } catch { cleanup(); reject(new Error("recording_start_failed")); }
+  }));
+}
+
 export function speechRecognitionAvailable() { return Boolean(window.SpeechRecognition || window.webkitSpeechRecognition); }
 
 export function transcriptPracticeResult(target: string, transcript: string): TranscriptPracticeResult {
