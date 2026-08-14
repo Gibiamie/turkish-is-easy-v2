@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Turkish Is Easy icon">
+  <defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#123956"/><stop offset="1" stop-color="#2d8caf"/></linearGradient></defs>
+  <rect width="512" height="512" rx="96" fill="url(#g)"/>
+  <path d="M108 118h296v76H294v220h-76V194H108z" fill="#f7fbfc"/>
+  <circle cx="381" cy="379" r="49" fill="#f3b33d"/>
+  <path d="M356 379h50" stroke="#123956" stroke-width="18" stroke-linecap="round"/>
+</svg>

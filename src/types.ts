@@ -1,0 +1,11 @@
+export type Locale = "en" | "id";
+export type LearnerMode = "kids" | "adult" | "family";
+export type ProfileId = "bella" | "ayza" | "adult" | "guest";
+export type LearningAction = "practice_done" | "already_known" | "needs_practice";
+export type LessonKind = "recognition" | "builder";
+export type Localized = Record<Locale, string>;
+export type Profile = { id: ProfileId; name: string; locale: Locale; mode: LearnerMode; description: Localized; badge: string };
+export type Lesson = { id: string; kind: LessonKind; prompt: Localized; finalWord: string; meaning: Localized; options: string[]; answerParts: string[]; image: string; hint: Localized[]; learnWhy: { keyIdea: Localized; hear: Localized; commonMistake: Localized; miniPractice: Record<Locale, string[]> }; verifiedAudio?: string };
+export type Topic = { id: string; title: Localized; description: Localized; level: number; gradient: string; lessons: Lesson[] };
+export type ReviewEntry = { lessonId: string; step: number; dueOn: string; updatedAt: string; reason: "needs_practice" | "scheduled" };
+export type ProgressSnapshot = { schemaVersion: 2; completedLessonIds: string[]; completedTopicIds: string[]; actionLog: Record<string, LearningAction>; review: ReviewEntry[]; activityDates: string[]; guestOnly?: boolean };
