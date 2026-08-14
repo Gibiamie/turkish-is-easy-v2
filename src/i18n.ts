@@ -10,6 +10,6 @@ const copy = {
 } as const;
 
 export type CopyKey = keyof typeof copy.en;
-export function t(locale: Locale, key: CopyKey): string { return copy[locale][key]; }
+export function t(locale: Locale, key: CopyKey): string { if (key === "learnWhy") return locale === "en" ? "Choose a clue" : "Pilih petunjuk"; return copy[locale][key]; }
 export function format(template: string, values: Record<string, string | number>): string { return Object.entries(values).reduce((result, [key, value]) => result.replaceAll(`{${key}}`, String(value)), template); }
 export function assertLocaleParity(): boolean { const en = Object.keys(copy.en).sort(); const id = Object.keys(copy.id).sort(); return en.length === id.length && en.every((key, index) => key === id[index]); }

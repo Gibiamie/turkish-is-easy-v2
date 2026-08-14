@@ -25,3 +25,5 @@
 - [x] My Words, gerçek ödüller, profil bazlı oturum devamlılığı ve geliştirilmiş offline güncellemesini uygulamak
 - [x] Playwright E2E, erişilebilirlik ve çoklu viewport görsel regresyon kontrollerini eklemek
 - [x] Tam parite ve üretim kalite kapılarını çalıştırıp canlı V2 dağıtımını güncellemek
+- [x] Laya’nın varsayılan yardımını bağlama duyarlı, cevap sızdırmayan ve kullanıcıya faydalı bir rehberliğe dönüştürmek
+- [x] Mikrofon izni, desteklenmeyen tarayıcı ve boş transkript durumlarını doğru mesaj ve güvenilir geri dönüş seçenekleriyle düzeltmek

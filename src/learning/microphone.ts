@@ -23,9 +23,7 @@ declare global {
 
 export type TranscriptPracticeResult = { transcript: string; exactReferenceMatch: boolean };
 
-export function speechRecognitionAvailable() {
-  return Boolean(window.SpeechRecognition || window.webkitSpeechRecognition);
-}
+export function speechRecognitionAvailable() { return Boolean(window.SpeechRecognition || window.webkitSpeechRecognition); }
 
 export function transcriptPracticeResult(target: string, transcript: string): TranscriptPracticeResult {
   return { transcript: transcript.trim(), exactReferenceMatch: unsafeTranscriptWouldPass(target, transcript) };
@@ -37,20 +35,24 @@ export async function captureTurkishTranscript(target: string): Promise<Transcri
   if (!navigator.mediaDevices?.getUserMedia) throw new Error("microphone_unsupported");
 
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-  stream.getTracks().forEach((track) => track.stop());
-
-  return new Promise<TranscriptPracticeResult>((resolve, reject) => {
-    const recognition = new Recognition();
-    recognition.lang = "tr-TR";
-    recognition.interimResults = false;
-    recognition.continuous = false;
-    recognition.maxAlternatives = 1;
-    let settled = false;
-    const finish = (result: TranscriptPracticeResult) => { if (!settled) { settled = true; resolve(result); } };
-    const fail = (error: string) => { if (!settled) { settled = true; reject(new Error(error)); } };
-    recognition.onresult = (event) => finish(transcriptPracticeResult(target, event.results[0]?.[0]?.transcript ?? ""));
-    recognition.onerror = (event) => fail(event.error ?? "recognition_error");
-    recognition.onend = () => { if (!settled) fail("recognition_no_result"); };
-    try { recognition.start(); } catch { fail("recognition_start_failed"); }
-  });
+  try {
+    return await new Promise<TranscriptPracticeResult>((resolve, reject) => {
+      const recognition = new Recognition();
+      recognition.lang = "tr-TR";
+      recognition.interimResults = false;
+      recognition.continuous = false;
+      recognition.maxAlternatives = 1;
+      let settled = false;
+      let timer = 0;
+      const finish = (result: TranscriptPracticeResult) => { if (!settled) { settled = true; window.clearTimeout(timer); resolve(result); } };
+      const fail = (error: string) => { if (!settled) { settled = true; window.clearTimeout(timer); reject(new Error(error)); } };
+      recognition.onresult = (event) => finish(transcriptPracticeResult(target, event.results[0]?.[0]?.transcript ?? ""));
+      recognition.onerror = (event) => fail(event.error ?? "recognition_error");
+      recognition.onend = () => { if (!settled) fail("recognition_no_result"); };
+      timer = window.setTimeout(() => { try { recognition.stop(); } finally { fail("recognition_timeout"); } }, 8000);
+      try { recognition.start(); } catch { fail("recognition_start_failed"); }
+    });
+  } finally {
+    stream.getTracks().forEach((track) => track.stop());
+  }
 }
