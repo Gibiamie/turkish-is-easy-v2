@@ -1,7 +1,8 @@
 import type { Lesson, Profile, Topic } from "../types";
 
 const guide = (keyIdeaEn: string, keyIdeaId: string, hearEn: string, hearId: string, mistakeEn: string, mistakeId: string, practiceEn: string[], practiceId: string[]) => ({ keyIdea: { en: keyIdeaEn, id: keyIdeaId }, hear: { en: hearEn, id: hearId }, commonMistake: { en: mistakeEn, id: mistakeId }, miniPractice: { en: practiceEn, id: practiceId } });
-const image = (name: string) => `/assets/${name}.png`;
+const appBase = (import.meta as ImportMeta & { env?: { BASE_URL?: string } }).env?.BASE_URL ?? "/turkish-is-easy-v2/";
+const image = (name: string) => `${appBase}assets/${name}.png`;
 
 export const PROFILES: Profile[] = [
   { id: "bella", name: "Bella", locale: "en", mode: "kids", badge: "B", description: { en: "English guidance · playful visual lessons", id: "Panduan bahasa Inggris · pelajaran visual" } },

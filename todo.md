@@ -15,3 +15,4 @@
 - [x] Erişilebilirlik, içerik, yerelleştirme, öğrenme motoru ve uçtan uca kalite kontrollerini eklemek
 - [x] Zorunlu dokümantasyonu, CI yapılandırmasını ve dağıtım hazırlığını tamamlamak
 - [x] Ön yayın adversarial kalite incelemesini yürütmek ve V2 sürümünü kayıt altına almak
+- [x] GitHub Pages alt yolunda PWA varlıklarının ve başlangıç paketinin yüklenmesini düzeltmek

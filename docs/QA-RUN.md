@@ -22,3 +22,7 @@ The current V2 starter scope exposes nine validated learning items across three 
 ## Remaining release constraints
 
 The V2 preview does not include account sync, a content studio, cloud audio processing, or a provider-backed Turkish pronunciation score. These capabilities remain intentionally absent rather than represented as incomplete learner controls.
+
+## Deployment correction
+
+The first Pages deployment was reachable but rendered only the static document shell because the compiled bundle and public assets used root-relative URLs. V2 now uses the `/turkish-is-easy-v2/` deployment base, a relative manifest entry, base-aware service-worker registration, and base-aware lesson image/audio URLs. The corrected production bundle, content QA, and all regression tests passed locally before redeployment.
